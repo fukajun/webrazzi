@@ -23,10 +23,10 @@ Or install it yourself as:
 ## Usage
 
 ```
-exe/webrazzi capture list_filename
-exe/webrazzi capture list_filename --mobile
-exe/webrazzi capture list_filename --mobile --size '375x1000'
-exe/webrazzi capture list_filename -u username -p password
+webrazzi capture list_filename
+webrazzi capture list_filename --mobile
+webrazzi capture list_filename --mobile --size '375x1000'
+webrazzi capture list_filename -u username -p password
 ```
 
 ## Development

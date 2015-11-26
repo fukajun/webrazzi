@@ -11,7 +11,7 @@ class Cli < Thor
   option :username, aliases: :u
   option :password, aliases: :p
   option :mobile,   default: false
-  option :size,    default: '980x768'
+  option :size,    default: '1280x768'
   def capture(file_path)
     username = options[:username]
     password = options[:password]

@@ -40,16 +40,19 @@ class Cli < Thor
   default_task :capture
 
   private
+  DOUBLE_SLASH = Regex.new("//")
+  SLASH        = Regex.new("/")
+  PROTOCOL     = Regex.new("https?://")
   def authed_url(url, username, password)
-    url.sub(/\/\//, "//#{username}:#{password}@")
+    url.sub(DOUBLE_SLASH , "//#{username}:#{password}@")
   end
 
   def filenamelize(url)
-    url.gsub(/\A.+?\/\//, '').gsub(/\//, '%')
+    url.gsub(PROTOCOL, '').gsub(SLASH, '%')
   end
 
-  def info(*argv)
-    puts argv.join(' ')
+  def info(*args)
+    puts args.join(' ')
   end
 end
 Cli.start(ARGV)

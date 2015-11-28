@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require 'watir-webdriver'
+require 'webdriver-user-agent'
+require_relative '../lib/webrazzi/list_loader'
+
+class Cli < Thor
+
+  desc 'Capture webpage', ''
+  option :username, aliases: :u
+  option :password, aliases: :p
+  option :mobile,   default: false
+  option :size,     default: '1280x768'
+  def capture(file_path)
+    username = options[:username]
+    password = options[:password]
+    need_auth = username && password
+    mobile    = options[:mobile]
+    w, h      = options[:size].split('x')
+
+    url_list = Webrazzi::ListFile.load(file_path)
+
+    driver = mobile ? Webdriver::UserAgent.driver(browser: :chrome, agent: :iphone) : :chrome
+    client = Watir::Browser.new driver
+    client.window.resize_to(w, h)
+
+    url_list.each do |url|
+      info url
+      basename = filenamelize(url)
+      access_url = need_auth ?  authed_url(url, username, password) : url
+      client.goto(access_url)
+      client.driver.save_screenshot "#{basename}.png"
+    end
+
+  ensure
+    client.close
+
+  end
+  default_task :capture
+
+  private
+  DOUBLE_SLASH = Regex.new("//")
+  SLASH        = Regex.new("/")
+  PROTOCOL     = Regex.new("https?://")
+  def authed_url(url, username, password)
+    url.sub(DOUBLE_SLASH , "//#{username}:#{password}@")
+  end
+
+  def filenamelize(url)
+    url.gsub(PROTOCOL, '').gsub(SLASH, '%')
+  end
+
+  def info(*args)
+    puts args.join(' ')
+  end
+end
+Cli.start(ARGV)

@@ -22,7 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+webrazzi capture list_filename
+webrazzi capture list_filename --mobile
+webrazzi capture list_filename --mobile --size '375x1000'
+webrazzi capture list_filename -u username -p password
+```
 
 ## Development
 

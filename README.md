@@ -18,6 +18,10 @@ Or install it yourself as:
 
     $ gem install webrazzi
 
+Install chrome webdriver
+
+See here: http://watirwebdriver.com/chrome/
+
 ## Usage
 
 Make URL list file.
